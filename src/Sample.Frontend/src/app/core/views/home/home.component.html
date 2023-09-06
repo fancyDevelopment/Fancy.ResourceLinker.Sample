@@ -1,0 +1,42 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <p class="lead">Home</p>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt-3" *ngIf="viewModel?.flightSummary as flightSummary">
+  <div class="row row-cols-md-3 g-4">
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Flight Count</h5>
+          <p class="card-text display-1">
+            {{ flightSummary.flightCount }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Departures Count</h5>
+          <p class="card-text display-1">
+            {{ flightSummary.departuresCount }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Destinations Count</h5>
+          <p class="card-text display-1">
+            {{ flightSummary.destinationsCount }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

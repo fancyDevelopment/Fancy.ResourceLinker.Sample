@@ -1,0 +1,17 @@
+<ng-container *ngIf="viewModel">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <p class="lead">Flight Edit</p>
+      </div>
+    </div>
+  <div class="row">
+    <div class="col">
+      <admin-flight-connection-card [viewModel]="viewModel.connection"/>
+      <admin-flight-times-card [viewModel]="viewModel.times"/>
+      <admin-flight-operator-card [viewModel]="viewModel.operator"/>
+      <admin-flight-price-card [viewModel]="viewModel.price"/>
+    </div>
+  </div>
+  </div>
+</ng-container>

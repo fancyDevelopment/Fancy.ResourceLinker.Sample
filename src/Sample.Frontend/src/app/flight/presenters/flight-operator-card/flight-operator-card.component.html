@@ -1,0 +1,28 @@
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">Operator</h5>
+    <form #flightOperatorForm="ngForm">
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input class="form-control" id="name" name="name" [(ngModel)]="viewModel.name">
+      </div>
+      <div class="mb-3">
+        <label for="shortName" class="form-label">Short Name</label>
+        <input class="form-control" id="shortName" name="shortName" [(ngModel)]="viewModel.shortName">
+      </div>
+      <div class="mb-3">
+        <label for="seatCount" class="form-label">Seat Count</label>
+        <input class="form-control" type="number" id="seatCount" name="seatCount" [(ngModel)]="viewModel.seatCount">
+      </div>
+    </form>
+  </div>
+  <div class="card-footer">
+    <button *ngIf="viewModel.update" class="btn btn-primary mb-3" (click)="save()">Save</button>
+    <div *ngIf="showSuccess" class="alert alert-success">
+      Successfully Saved!
+    </div>
+    <div *ngIf="showError" class="alert alert-danger">
+      Error on saving!
+    </div>
+  </div>
+</div>

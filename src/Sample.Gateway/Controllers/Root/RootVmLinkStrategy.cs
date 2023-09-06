@@ -12,6 +12,8 @@ public class RootVmLinkStrategy : LinkStrategyBase<RootVm>
         resource.AddLink("self", urlHelper.LinkTo<RootController>(c => c.GetRootVm()));
         resource.AddLink("homeVm", urlHelper.LinkTo<HomeController>(c => c.GetHomeVm()));
         resource.AddLink("flightSearchVm", urlHelper.LinkTo<FlightsController>(c => c.GetSearchVm(null, null)));
-        //resource.AddLink("userinfo", "/userinfo");
+        
+        if(urlHelper.ActionContext.HttpContext.User.Identity?.IsAuthenticated ?? false)
+            resource.AddLink("userinfo", "/userinfo");
     }
 }

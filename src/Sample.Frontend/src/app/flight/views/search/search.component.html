@@ -1,0 +1,34 @@
+<ng-container *ngIf="viewModel">
+    <div class="row">
+      <div class="col">
+        <span class="lead">Flight Search</span>
+        <button class="btn btn-secondary float-end" [routerLink]="['/flight/create', viewModel._links?.createFlightVm?.href]">Create</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <form #searchForm="ngForm">
+          <div class="mb-3">
+            <label for="from" class="form-label">From</label>
+            <input class="form-control" id="from" name="from" [(ngModel)]="viewModel.from">
+          </div>
+          <div class="mb-3">
+            <label for="to" class="form-label">To</label>
+            <input class="form-control" id="to" name="to" [(ngModel)]="viewModel.to">
+          </div>
+          <button [disabled]="!viewModel._links?.flightSearchVm" class="btn btn-primary" [routerLink]="['/flight/search', viewModel._links?.flightSearchVm?.href + '?from=' + (viewModel.from ?? '') + '&to=' + (viewModel.to ?? '')]">Search</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="row"><span class="lead">Search Results</span></div>
+    <div class="row" *ngIf="viewModel.flights.length === 0">
+      <p>Search for flights to show something here!</p>
+    </div>
+    <div *ngIf="viewModel.flights.length > 0" class="row row-cols-1 row-cols-md-2 g-4">
+      <div class="col" *ngFor="let flight of viewModel.flights">
+        <admin-flight-summary-card [flight]="flight"></admin-flight-summary-card>
+      </div>
+    </div>
+
+</ng-container>

@@ -16,9 +16,9 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 builder.Services.AddGateway()
                 .LoadConfiguration(builder.Configuration.GetSection("Gateway"))
-                .AddRouting();
-//.AddAntiForgery()
-//.AddAuthentication();
+                .AddRouting()
+                .AddAntiForgery()
+                .AddAuthentication();
 
 builder.Services.AddHateoas();
 
@@ -36,9 +36,9 @@ if (app.Environment.IsDevelopment())
     app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:4200"));
 }
 
-//app.UseGatewayAuthentication();
-//app.UseGatewayAuthenticationEndpoints();
-//app.UseGatewayAntiForgery(builder => builder.Exclude("/hubs"));
+app.UseGatewayAuthentication();
+app.UseGatewayAuthenticationEndpoints();
+//app.UseGatewayAntiForgery();
 
 app.MapControllers();
 

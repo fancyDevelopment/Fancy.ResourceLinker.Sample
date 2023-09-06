@@ -1,0 +1,29 @@
+<div class="d-flex flex-column h-100">
+  <nav class="navbar navbar-expand-sm bg-body-tertiary" *ngIf="rootVm$ | async as rootVm">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">{{title}}</a>
+      <div class="navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link active" aria-current="page" routerLink="/home">Home</a>
+          <a class="nav-link active" [routerLink]="['flight/search', rootVm._links?.['flightSearchVm']?.href]">Flight Search</a>
+          <a class="nav-link active" routerLink="passenger/search">Passenger Search</a>
+        </div>
+      </div>
+    </div>
+    <ul class="navbar-nav d-flex align-items-center">
+      <li class="nav-item">
+        <span class="m-2">{{ currentUserInfo?.name }}</span>
+      </li>
+      <li class="nav-item" *ngIf="!currentUserInfo">
+        <button class="btn btn-secondary" (click)="logIn()">Login</button>
+      </li>
+      <li class="nav-item" *ngIf="currentUserInfo">
+        <button class="btn btn-secondary" (click)="logOut()">Logout</button>
+      </li>
+    </ul>
+  </nav>
+  
+  <div class="container h-100 overflow-x-auto pt-4">
+      <router-outlet></router-outlet>
+  </div>
+</div>
