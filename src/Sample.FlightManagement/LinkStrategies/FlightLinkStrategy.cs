@@ -13,9 +13,13 @@ public class FlightLinkStrategy : LinkStrategyBase<Flight>
         resource.AddLink("self", urlHelper.LinkTo<FlightsController>(c => c.GetFlightById(resource.Id)));
 
         // Add actions
-        resource.Connection.AddAction("update", "PUT", urlHelper.LinkTo<FlightsController>(c => c.UpdateFlightConnection(resource.Id, null!)));
-        resource.Times.AddAction("update", "PUT", urlHelper.LinkTo<FlightsController>(c => c.UpdateFlightTimes(resource.Id, null!)));
-        resource.Operator?.AddAction("update", "PUT", urlHelper.LinkTo<FlightsController>(c => c.UpdateFlightOperator(resource.Id, null!)));
+        if (urlHelper.ActionContext.HttpContext.User.Claims.Any(c => c.Type == "canedit" && c.Value == "true"))
+        {
+            resource.Connection.AddAction("update", "PUT", urlHelper.LinkTo<FlightsController>(c => c.UpdateFlightConnection(resource.Id, null!)));
+            resource.Times.AddAction("update", "PUT", urlHelper.LinkTo<FlightsController>(c => c.UpdateFlightTimes(resource.Id, null!)));
+            resource.Operator?.AddAction("update", "PUT", urlHelper.LinkTo<FlightsController>(c => c.UpdateFlightOperator(resource.Id, null!)));
+        }
+
         resource.AddAction("delete", "DELETE", urlHelper.LinkTo<FlightsController>(c => c.DeleteFlightById(resource.Id)));
     }
 }

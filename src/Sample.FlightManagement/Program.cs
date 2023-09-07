@@ -2,6 +2,8 @@ using FlightManagement.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Fancy.ResourceLinker.Hateoas;
 using Fancy.ResourceLinker.Models.Json;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,15 @@ builder.Services.AddDbContext<FlightManagementDbContext>(options => options.UseS
 
 builder.Services.AddHateoas();
 
+IdentityModelEventSource.ShowPII = true;
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.Authority = builder.Configuration.GetValue<string>("Authentication:Authority");
+    options.Audience = builder.Configuration.GetValue<string>("Authentication:Audience");
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters.NameClaimType = "preferred_username";
+});
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -36,8 +47,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

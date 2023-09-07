@@ -2,11 +2,13 @@ using Fancy.ResourceLinker.Hateoas;
 using FlightManagement.Domain;
 using FlightManagement.Dtos;
 using FlightManagement.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlightManagement.Controllers;
 
+[Authorize]
 [ApiController]
 public class FlightsController : HypermediaController
 {

@@ -1,6 +1,9 @@
 using Fancy.ResourceLinker.Gateway;
 using Fancy.ResourceLinker.Models.Json;
 using Fancy.ResourceLinker.Hateoas;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.IdentityModel.Logging;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +28,8 @@ builder.Services.AddHateoas();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+IdentityModelEventSource.ShowPII = true;
 
 var app = builder.Build();
 
