@@ -13,7 +13,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.10" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-    <PackageReference Include="Fancy.ResourceLinker.Hateoas" Version="0.0.2" />
+    <PackageReference Include="Fancy.ResourceLinker.Hateoas" Version="0.0.3" />
   </ItemGroup>
 
 </Project>
