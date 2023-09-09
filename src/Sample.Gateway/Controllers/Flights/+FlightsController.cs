@@ -37,8 +37,8 @@ public class FlightsController : HypermediaController
     public async Task<IActionResult> GetSearchVm(string? from = null, string? to = null)
     {
         FlightSearchVm result = new FlightSearchVm { From = from, To = to };
-        dynamic? flightSummary = await _router.GetAsync<DynamicResource>("FlightManagement", "/api/flight-management/flights/summary");
-        result.FlightCount = flightSummary?.FlightCount ?? 0;
+        dynamic flightSummary = await _router.GetAsync<DynamicResource>("FlightManagement", "/api/flight-management/flights/summary");
+        result.FlightCount = flightSummary.FlightCount ?? 0;
 
         // If no query param was provided, return an empty result
         if (!Request.Query.ContainsKey(nameof(from)) && !Request.Query.ContainsKey(nameof(to))) return Hypermedia(result);

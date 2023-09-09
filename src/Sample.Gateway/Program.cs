@@ -1,9 +1,9 @@
 using Fancy.ResourceLinker.Gateway;
 using Fancy.ResourceLinker.Models.Json;
 using Fancy.ResourceLinker.Hateoas;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.IdentityModel.Logging;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using OpenTelemetry.Trace;
+using OpenTelemetry.Resources;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +17,10 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.AddResourceConverter();
 });
 
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 builder.Services.AddGateway()
                 .LoadConfiguration(builder.Configuration.GetSection("Gateway"))
                 .AddRouting()
@@ -25,9 +29,15 @@ builder.Services.AddGateway()
 
 builder.Services.AddHateoas();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddOpenTelemetry()
+                .WithTracing(builder =>
+                {
+                    builder.AddSource("Sample.Gateway")
+                           .ConfigureResource(resource => resource.AddService("Sample.Gateway"))
+                           .AddAspNetCoreInstrumentation()
+                           .AddHttpClientInstrumentation()
+                           .AddOtlpExporter(opts => opts.Endpoint = new Uri("http://localhost:4317"));
+                });
 
 IdentityModelEventSource.ShowPII = true;
 
