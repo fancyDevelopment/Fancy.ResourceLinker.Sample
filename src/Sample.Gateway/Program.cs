@@ -7,14 +7,10 @@ using OpenTelemetry.Resources;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddJsonFile("./settings/general.json", true);
-builder.Configuration.AddJsonFile("./settings/gateways.adminapi.json", true);
-
 // Add services to the container.
-
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
-    options.JsonSerializerOptions.AddResourceConverter();
+    options.JsonSerializerOptions.AddResourceConverter(true);
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -48,12 +44,12 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:4200"));
+    app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 }
 
 app.UseGatewayAuthentication();
 app.UseGatewayAuthenticationEndpoints();
-//app.UseGatewayAntiForgery();
+app.UseGatewayAntiForgery();
 
 app.MapControllers();
 

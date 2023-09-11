@@ -1,7 +1,6 @@
 using Fancy.ResourceLinker.Gateway.Routing;
 using Fancy.ResourceLinker.Hateoas;
 using Fancy.ResourceLinker.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gateway.Controllers.Flights;
@@ -37,7 +36,7 @@ public class FlightsController : HypermediaController
     public async Task<IActionResult> GetSearchVm(string? from = null, string? to = null)
     {
         FlightSearchVm result = new FlightSearchVm { From = from, To = to };
-        dynamic flightSummary = await _router.GetAsync<DynamicResource>("FlightManagement", "/api/flight-management/flights/summary");
+        dynamic flightSummary = await _router.GetCachedAsync<DynamicResource>("FlightManagement", "/api/flight-management/flights/summary", TimeSpan.FromSeconds(30));
         result.FlightCount = flightSummary.FlightCount ?? 0;
 
         // If no query param was provided, return an empty result

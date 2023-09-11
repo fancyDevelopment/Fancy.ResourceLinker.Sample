@@ -11,16 +11,11 @@ public class FlightShoppingDbContext : DbContext
 
     public DbSet<Flight> Flights { get; set; } = null!;
 
-    public DbSet<ShoppingBasket> ShoppingBaskets { get; set;} = null!;
-
-    public DbSet<Ticket> Tickets { get; set; } = null!;
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Flight>().Property(f => f.Id).ValueGeneratedNever();
         modelBuilder.Entity<Flight>().OwnsOne(f => f.Price);
-        modelBuilder.Entity<ShoppingBasket>().OwnsOne(sb => sb.PaymentDetails);
 
         modelBuilder.Entity<Flight>().HasData(
             new { Id = 1, AircraftId = 1 });
