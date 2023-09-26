@@ -1,25 +1,20 @@
 using FlightManagement.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Fancy.ResourceLinker.Hateoas;
-using Fancy.ResourceLinker.Models.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers().AddJsonOptions(options =>
-{
-    options.JsonSerializerOptions.AddResourceConverter(true);
-});
+builder.Services.AddControllers().AddHateoas();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 string? connectionString = builder.Configuration.GetConnectionString("database");
 builder.Services.AddDbContext<FlightManagementDbContext>(options => options.UseSqlServer(connectionString));
-
-builder.Services.AddHateoas();
 
 IdentityModelEventSource.ShowPII = true;
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>

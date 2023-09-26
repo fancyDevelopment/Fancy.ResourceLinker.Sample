@@ -1,5 +1,4 @@
 using Fancy.ResourceLinker.Gateway;
-using Fancy.ResourceLinker.Models.Json;
 using Fancy.ResourceLinker.Hateoas;
 using Microsoft.IdentityModel.Logging;
 using OpenTelemetry.Trace;
@@ -8,10 +7,7 @@ using OpenTelemetry.Resources;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers().AddJsonOptions(options =>
-{
-    options.JsonSerializerOptions.AddResourceConverter(true);
-});
+builder.Services.AddControllers().AddHateoas();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -22,8 +18,6 @@ builder.Services.AddGateway()
                 .AddRouting()
                 .AddAntiForgery()
                 .AddAuthentication();
-
-builder.Services.AddHateoas();
 
 builder.Services.AddOpenTelemetry()
                 .WithTracing(builder =>
@@ -39,6 +33,8 @@ IdentityModelEventSource.ShowPII = true;
 
 var app = builder.Build();
 
+app.UseGatewayAuthentication();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -47,7 +43,6 @@ if (app.Environment.IsDevelopment())
     app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 }
 
-app.UseGatewayAuthentication();
 app.UseGatewayAuthenticationEndpoints();
 app.UseGatewayAntiForgery();
 

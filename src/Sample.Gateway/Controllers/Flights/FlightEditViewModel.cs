@@ -2,7 +2,7 @@ using Fancy.ResourceLinker.Models;
 
 namespace Gateway.Controllers.Flights;
 
-public class FlightEditVm : ResourceBase
+public class FlightEditViewModel : DynamicResourceBase
 {
     public int Id { get; set; }
 }

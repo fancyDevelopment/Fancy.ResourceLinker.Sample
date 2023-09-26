@@ -2,7 +2,7 @@ using Fancy.ResourceLinker.Models;
 
 namespace Gateway.Controllers.Flights;
 
-public class FlightSearchVm : ResourceBase
+public class FlightSearchViewModel : ResourceBase
 {
     public double FlightCount { get; set; }
 

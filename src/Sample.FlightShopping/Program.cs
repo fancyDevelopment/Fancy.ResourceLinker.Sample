@@ -1,5 +1,4 @@
 using Fancy.ResourceLinker.Hateoas;
-using Fancy.ResourceLinker.Models.Json;
 using FlightShopping.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -9,17 +8,15 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers().AddJsonOptions(options =>
+builder.Services.AddControllers().AddHateoas().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-    options.JsonSerializerOptions.AddResourceConverter(true);
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddHateoas();
 
 string? connectionString = builder.Configuration.GetConnectionString("database");
 builder.Services.AddDbContext<FlightShoppingDbContext>(options => options.UseSqlServer(connectionString));

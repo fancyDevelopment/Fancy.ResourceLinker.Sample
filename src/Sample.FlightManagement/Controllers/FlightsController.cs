@@ -116,7 +116,7 @@ public class FlightsController : HypermediaController
         newFlight.Operator = createFlightDto.Operator;
         _flightManagementDbContext.Flights.Add(newFlight);
         await _flightManagementDbContext.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetFlightById), new { id = newFlight.Id }, null);
+        return CreatedAtAction(nameof(GetFlightById), new { id = newFlight.Id }, newFlight.Id);
     }
 
     [HttpDelete]

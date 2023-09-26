@@ -13,7 +13,7 @@ public class Flight : ResourceBase
 
 public class FlightPrice : ResourceBase
 {
-    public float BasePrice { get; set; } = Random.Shared.Next(50, 150);
+    public float BasePrice { get; set; }
 
-    public float SeatReservationSurcharge { get; set; } = Random.Shared.Next(5, 15);
+    public float SeatReservationSurcharge { get; set; }
 }

@@ -10,17 +10,16 @@
         </div>
       </div>
     </div>
-    <ul class="navbar-nav d-flex align-items-center">
-      <li class="nav-item">
-        <span class="m-2">{{ currentUserInfo?.name }}</span>
-      </li>
-      <li class="nav-item" *ngIf="!currentUserInfo">
+    <div class="navbar-nav px-3">
+      <div class="nav-item" *ngIf="!currentUserInfo">
         <button class="btn btn-secondary" (click)="logIn()">Login</button>
-      </li>
-      <li class="nav-item" *ngIf="currentUserInfo">
-        <button class="btn btn-secondary" (click)="logOut()">Logout</button>
-      </li>
-    </ul>
+      </div>
+      <div class="nav-item" *ngIf="currentUserInfo">
+        <button class="btn btn-info text-nowrap" (click)="logOut()">
+          Logout <span class="badge text-bg-light">{{currentUserInfo.name}}</span>
+        </button>
+      </div>
+    </div>
   </nav>
   
   <div class="container h-100 overflow-x-auto pt-4">

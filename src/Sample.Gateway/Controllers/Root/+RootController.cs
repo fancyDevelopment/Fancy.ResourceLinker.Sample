@@ -8,8 +8,8 @@ public class RootController : HypermediaController
 {
     [HttpGet]
     [Route("api")]
-    public IActionResult GetRootVm()
+    public IActionResult GetRootViewModel()
     {
-        return Hypermedia(new RootVm());
+        return Hypermedia(new RootViewModel());
     }
 }
