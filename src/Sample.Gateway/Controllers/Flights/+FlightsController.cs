@@ -63,7 +63,7 @@ public class FlightsController : HypermediaController
     /// and merging other data into it dynamically making use of .net dynamic language runtime features.
     /// </summary>
     /// <param name="flightId">The flight identifier.</param>
-    [Authorize]
+    //[Authorize]
     [HttpGet]
     [Route("api/views/flight/{flightId}/edit")]
     public async Task<IActionResult> GetEditViewModel(int flightId)

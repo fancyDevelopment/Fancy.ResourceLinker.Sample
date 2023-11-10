@@ -15,9 +15,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddGateway()
                 .LoadConfiguration(builder.Configuration.GetSection("Gateway"))
-                .AddRouting()
-                .AddAntiForgery()
-                .AddAuthentication();
+                .AddRouting();
+                //.AddAntiForgery()
+                //.AddAuthentication();
 
 builder.Services.AddOpenTelemetry()
                 .WithTracing(builder =>
@@ -33,7 +33,7 @@ IdentityModelEventSource.ShowPII = true;
 
 var app = builder.Build();
 
-app.UseGatewayAuthentication();
+//app.UseGatewayAuthentication();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -43,8 +43,8 @@ if (app.Environment.IsDevelopment())
     app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 }
 
-app.UseGatewayAuthenticationEndpoints();
-app.UseGatewayAntiForgery();
+//app.UseGatewayAuthenticationEndpoints();
+//app.UseGatewayAntiForgery();
 
 app.MapControllers();
 
