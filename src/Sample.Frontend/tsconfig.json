@@ -6,6 +6,11 @@
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "paths": {
+      "fancy-ngrx-deep-patchable-signal": [
+        "./libs/fancy-ngrx-deep-patchable-signal/src/index"
+      ]
+    },
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": false,
     "noImplicitReturns": true,

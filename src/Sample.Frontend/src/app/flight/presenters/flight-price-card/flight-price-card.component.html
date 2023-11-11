@@ -4,16 +4,24 @@
     <form #flightPriceForm="ngForm">
       <div class="mb-3">
         <label for="basePrice" class="form-label">Base Price</label>
-        <input class="form-control" type="number" id="amount" name="basePrice" [(ngModel)]="viewModel.basePrice">
+        <input class="form-control" type="number" id="amount" name="basePrice" [ngModel]="viewModel?.basePrice()" (ngModelChange)="viewModel?.basePrice?.patch($event)">
       </div>
       <div class="mb-3">
         <label for="seatReservationSurcharge" class="form-label">Seat Reservation Surcharge</label>
-        <input class="form-control" type="number" id="amount" name="seatReservationSurcharge" [(ngModel)]="viewModel.seatReservationSurcharge">
+        <input class="form-control" type="number" id="amount" name="seatReservationSurcharge" [ngModel]="viewModel?.seatReservationSurcharge()" (ngModelChange)="viewModel?.seatReservationSurcharge?.patch($event)">
       </div>
     </form>
   </div>
   <div class="card-footer">
-    <button *ngIf="viewModel.update" class="btn btn-primary mb-3" (click)="save()">Save</button>
+    <div>
+      <button *ngIf="canUpdate" class="btn btn-primary mb-3" (click)="save()">Save</button> 
+      <button *ngIf="canUpdate" class="btn btn-secondary mb-3" (click)="reset()">Reset</button>
+    </div>
+    <pre>
+Patchable FlightEditVm.price Signal
+----------------------------------------
+{{ viewModel?.() | json }}
+    </pre>
     <div *ngIf="showSuccess" class="alert alert-success">
       Successfully Saved!
     </div>

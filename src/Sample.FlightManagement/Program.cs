@@ -14,7 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 string? connectionString = builder.Configuration.GetConnectionString("database");
-builder.Services.AddDbContext<FlightManagementDbContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<FlightManagementDbContext>(options => options.UseInMemoryDatabase("FlightManagement"));
 
 //IdentityModelEventSource.ShowPII = true;
 //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>

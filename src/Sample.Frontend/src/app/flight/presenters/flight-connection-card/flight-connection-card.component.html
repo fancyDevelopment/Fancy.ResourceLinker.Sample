@@ -4,24 +4,32 @@
     <form #flightConnectionForm="ngForm">
       <div class="mb-3">
         <label for="from" class="form-label">From</label>
-        <input class="form-control" id="from" name="from" [(ngModel)]="viewModel.from">
+        <input class="form-control" id="from" name="from" [ngModel]="viewModel?.from()" (ngModelChange)="viewModel?.from?.patch($event)">
       </div>
       <div class="mb-3">
         <label for="to" class="form-label">To</label>
-        <input class="form-control" id="to" name="to" [(ngModel)]="viewModel.to">
+        <input class="form-control" id="to" name="to" [ngModel]="viewModel?.to()" (ngModelChange)="viewModel?.to?.patch($event)">
       </div>
       <div class="mb-3">
         <label for="icaoFrom" class="form-label">ICAO From</label>
-        <input class="form-control" id="icaoFrom" name="icaoFrom" [(ngModel)]="viewModel.icaoFrom">
+        <input class="form-control" id="icaoFrom" name="icaoFrom" [ngModel]="viewModel?.icaoFrom()" (ngModelChange)="viewModel?.icaoFrom?.patch($event)">
       </div>
       <div class="mb-3">
         <label for="icaoTo" class="form-label">ICAO To</label>
-        <input class="form-control" id="icaoTo" name="icaoTo" [(ngModel)]="viewModel.icaoTo">
+        <input class="form-control" id="icaoTo" name="icaoTo" [ngModel]="viewModel?.icaoTo()" (ngModelChange)="viewModel?.icaoTo?.patch($event)">
       </div>
     </form>
   </div>
   <div class="card-footer">
-    <button *ngIf="viewModel.update" class="btn btn-primary mb-3" (click)="save()">Save</button>
+    <div>
+      <button *ngIf="canUpdate" class="btn btn-primary mb-3" (click)="save()">Save</button> 
+      <button *ngIf="canUpdate" class="btn btn-secondary mb-3" (click)="reset()">Reset</button>
+    </div>
+    <pre>
+Patchable FlightEditVm.connection Signal
+----------------------------------------
+{{ viewModel?.() | json }}
+    </pre>
     <div *ngIf="showSuccess" class="alert alert-success">
       Successfully Saved!
     </div>

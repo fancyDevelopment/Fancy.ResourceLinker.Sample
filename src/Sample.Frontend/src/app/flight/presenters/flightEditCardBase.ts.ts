@@ -1,20 +1,18 @@
 import { Directive, Input } from "@angular/core";
-import { timer } from "rxjs";
+import { DeepPatchableSignal } from "fancy-ngrx-deep-patchable-signal";
 
 @Directive()
-export abstract class FlightEditCardBase {
+export abstract class FlightEditCardBase<T> {
   showSuccess = false;
   showError = false;
-  @Input() viewModel: any = {};
+  canUpdate = true;
+  @Input() viewModel: DeepPatchableSignal<T> | undefined;
 
   save() {
-    this.viewModel.update().then(() => {
-      this.showSuccess = true;
-      timer(3000).subscribe(() => { this.showSuccess = false; });
-    })
-    .catch(() => {
-      this.showError = true;
-      timer(3000).subscribe(() => { this.showError = false; });
-    });
+    
+    // ToDo
+
   }
+
+  abstract reset(): void;
 }

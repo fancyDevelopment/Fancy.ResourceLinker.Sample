@@ -19,7 +19,7 @@ builder.Services.AddSwaggerGen();
 
 
 string? connectionString = builder.Configuration.GetConnectionString("database");
-builder.Services.AddDbContext<FlightShoppingDbContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<FlightShoppingDbContext>(options => options.UseInMemoryDatabase("FlightShopping"));
 
 //IdentityModelEventSource.ShowPII = true;
 //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
