@@ -1,12 +1,12 @@
 import { Signal, WritableSignal, computed, untracked } from "@angular/core";
-import { patchState } from "@ngrx/signals";
+import { patchState, signalStoreFeature, withComputed, withMethods } from "@ngrx/signals";
 import { SignalStateMeta } from "@ngrx/signals/src/signal-state";
 
 interface Patchable<T> {
   patch(state: Partial<T>): void;
 }
 
-function isRecord(value: unknown): value is Record<string, unknown> {
+export function isRecord(value: unknown): value is Record<string, unknown> {
   return value?.constructor === Object;
 }
 
@@ -27,7 +27,7 @@ export function toDeepPatchableSignal<State extends Record<string, unknown>, T>(
       }
 
       if (!target[prop]) {
-        target[prop] = computed(() => target()[prop]);
+        target[prop] = computed(() => target() ? target()[prop] : undefined);
       }
 
       return toDeepPatchableSignal(state, (newVal: T) => patchFunc({ ...target(), [prop]: isRecord(target[prop]()) ? { ...target[prop](), ...newVal } : newVal }), target[prop]);

@@ -9,6 +9,9 @@
     "paths": {
       "fancy-ngrx-deep-patchable-signal": [
         "./libs/fancy-ngrx-deep-patchable-signal/src/index"
+      ],
+      "fancy-ngrx-hypermedia-models": [
+        "./libs/fancy-ngrx-hypermedia-models/src/index"
       ]
     },
     "noImplicitOverride": true,

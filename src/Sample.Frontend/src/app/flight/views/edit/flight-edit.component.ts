@@ -18,7 +18,7 @@ export const FlightEditStore = signalStore(
     // Does not work because of nullable values at initialization
     //flightRoute: computed(() => state.flightEditVm.connection.from() + ' - ' + state.flightEditVm.connection.to())
   })),
-  withMethods(state => {
+  withMethods((state) => {
     return {
       setFlightEditVm(vm: FlightEditViewModel) {
         patchState(state, { flightEditVm: vm });
