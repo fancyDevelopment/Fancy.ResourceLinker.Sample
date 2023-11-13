@@ -1,6 +1,4 @@
-import { Signal, WritableSignal, computed, untracked } from "@angular/core";
-import { patchState, signalStoreFeature, withComputed, withMethods } from "@ngrx/signals";
-import { SignalStateMeta } from "@ngrx/signals/src/signal-state";
+import { Signal, computed } from "@angular/core";
 
 interface Patchable<T> {
   patch(state: Partial<T>): void;
@@ -16,13 +14,13 @@ export type DeepPatchableSignal<T> = Signal<T> & Patchable<T> &
     ? Readonly<{ [K in keyof T]: DeepPatchableSignal<T[K]> }>
     : unknown);
 
-export function toDeepPatchableSignal<State extends Record<string, unknown>, T>(state: SignalStateMeta<State>, patchFunc: (newVal: T) => Partial<State>, signal: Signal<T>): DeepPatchableSignal<T> {
+export function toDeepPatchableSignal<T>(patchFunc: (newVal: T) => void, signal: Signal<T>): DeepPatchableSignal<T> {
   return new Proxy(signal, {
     get(target: any, prop) {
 
       if (prop === 'patch') {
         return (newVal: T) => {
-          patchState(state, patchFunc(newVal))
+          patchFunc(newVal)
         }
       }
 
@@ -30,7 +28,7 @@ export function toDeepPatchableSignal<State extends Record<string, unknown>, T>(
         target[prop] = computed(() => target() ? target()[prop] : undefined);
       }
 
-      return toDeepPatchableSignal(state, (newVal: T) => patchFunc({ ...target(), [prop]: isRecord(target[prop]()) ? { ...target[prop](), ...newVal } : newVal }), target[prop]);
+      return toDeepPatchableSignal((newVal: T) => patchFunc({ ...target(), [prop]: isRecord(target[prop]()) ? { ...target[prop](), ...newVal } : newVal }), target[prop]);
     },
   });
 }

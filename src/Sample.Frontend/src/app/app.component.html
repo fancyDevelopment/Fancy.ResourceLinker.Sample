@@ -1,5 +1,5 @@
 <div class="d-flex flex-column h-100">
-  <nav class="navbar navbar-expand-sm bg-body-tertiary" *ngIf="rootVmSignal() as rootVm">
+  <nav class="navbar navbar-expand-sm bg-body-tertiary" *ngIf="rootVm$ | async as rootVm">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">{{title}}</a>
       <div class="navbar-collapse" id="navbarNavAltMarkup">

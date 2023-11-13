@@ -1,10 +1,8 @@
 import { HttpClient } from "@angular/common/http";
-import { Signal, WritableSignal, computed, effect, inject, signal } from "@angular/core";
+import { Signal, effect, inject, signal } from "@angular/core";
 import { patchState, signalStoreFeature, withHooks, withMethods, withState } from "@ngrx/signals";
-import { SignalStateMeta } from "@ngrx/signals/src/signal-state";
-import { ResourceBase } from "fancy-hateoas-client";
-import { DeepPatchableSignal, isRecord, toDeepPatchableSignal } from "fancy-ngrx-deep-patchable-signal";
-import { delay, firstValueFrom } from "rxjs";
+import { toDeepPatchableSignal } from "fancy-ngrx-deep-patchable-signal";
+import { firstValueFrom } from "rxjs";
 
 
 interface Hypermedia<T> {
@@ -20,7 +18,7 @@ export type HypermediaSignal<T> = Signal<T> & Hypermedia<T> &
 
 export function toHypermediaSignal<T>(modelSignal: Signal<T>, httpClient: HttpClient): HypermediaSignal<T> {
 
-  let links: Record<string, WritableSignal<any>> = {}
+  let links: Record<string, HypermediaSignal<any>> = {}
 
   return new Proxy(modelSignal, {
       get(target: any, prop) {
@@ -31,7 +29,7 @@ export function toHypermediaSignal<T>(modelSignal: Signal<T>, httpClient: HttpCl
 
             if(!links[rel]) {
               // Create a new signal
-              links[rel] = signal<any>(null);
+              const linkedModelSignal = signal<any>(null);
 
               const linkHrefSignal = (modelSignal as any)._links[rel].href;
 
@@ -39,13 +37,20 @@ export function toHypermediaSignal<T>(modelSignal: Signal<T>, httpClient: HttpCl
                 const linkHref: string = linkHrefSignal();
                 if(linkHref) {
                   httpClient.get(linkHref).subscribe((model: any) => {
-                    links[rel].set(model);
+                    linkedModelSignal.set(model);
                   });
+                } else {
+                  linkedModelSignal.set(undefined);
                 }
-              });
+              }, { allowSignalWrites: true });
+
+              const patchableModelSignal = toDeepPatchableSignal(newVal => linkedModelSignal.set(newVal), linkedModelSignal);
+              const hypermediaSignal = toHypermediaSignal(patchableModelSignal, httpClient);
+
+              links[rel] = hypermediaSignal;
             }
 
-            return toHypermediaSignal(links[rel], httpClient);
+            return links[rel];
           };
         }
 
@@ -63,7 +68,9 @@ export function withHypermediaModels(apiRootUrl?: string) {
 
             const httpClient = inject(HttpClient);
 
-            const modelsPatchable = toDeepPatchableSignal(state, newVal => ({ models: { ...state.models(), ...newVal } }), state.models);
+            const modelsPatchable = toDeepPatchableSignal(newVal => patchState(state, { models: { ...state.models(), ...newVal } }), state.models);
+
+            const hypermediaSignals: Record<string, HypermediaSignal<any>> = {};
 
             return {
                 async loadModel(url: string) {
@@ -71,12 +78,21 @@ export function withHypermediaModels(apiRootUrl?: string) {
                   const model = await firstValueFrom(httpClient.get(url).pipe());
                   modelsPatchable.patch({[url]: model});
                 },
-                getOrLoadModel(url: string): HypermediaSignal<any> {
-                  const modelSignal = modelsPatchable[url];
+                getOrLoadModel<TM>(url: string): HypermediaSignal<TM> {
+
+                  if(!hypermediaSignals[url]) {
+
+                    console.log('Loading model from ', url);
+
+                    const modelSignal = modelsPatchable[url] as Signal<TM>;
                     if(modelSignal() === undefined) {
-                        this.loadModel(url);
+                      this.loadModel(url);
                     }
-                    return toHypermediaSignal(modelSignal, httpClient);
+                  
+                    hypermediaSignals[url] = toHypermediaSignal<TM>(modelSignal, httpClient);
+                  }
+
+                  return hypermediaSignals[url] as HypermediaSignal<TM>;
                 }
             }
         }),

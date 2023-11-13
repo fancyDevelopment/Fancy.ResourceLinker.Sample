@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { ViewBase } from 'fancy-ngx-hateoas-client';
+import { Component, inject } from '@angular/core';
 import { FlightSummaryCardComponent } from '../../presenters/flight-summary-card/flight-summary-card.component';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { AppState } from 'src/app/app.state';
 
 @Component({
   standalone: true,
@@ -11,5 +11,17 @@ import { RouterLink } from '@angular/router';
   selector: 'admin-flight-search',
   templateUrl: './search.component.html'
 })
-export class SearchComponent extends ViewBase {
+export class SearchComponent {
+
+  appState = inject(AppState);
+  activatedRoute = inject(ActivatedRoute);
+
+  viewModel: any = null; 
+
+  constructor() {
+    this.activatedRoute.params.subscribe(params => {
+      this.viewModel = this.appState.getOrLoadModel(params['url']);
+    });
+  }
+
 }

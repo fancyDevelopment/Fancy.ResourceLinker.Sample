@@ -27,10 +27,6 @@ export class AppComponent {
       this.currentUserInfo = await rootVm.fetch_userinfo?.();
     });
 
-    effect(() => {
-      console.log('Root model loaded', this.rootVmSignal());
-    });
-
   }
 
   logIn() {
