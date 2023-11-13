@@ -13,21 +13,11 @@ import { HypermediaSignal } from 'fancy-ngrx-hypermedia-models';
 })
 export class AppComponent {
   title = 'Flight42';
-  rootVm$: Promise<ResourceBase>;
-  currentUserInfo: any = {};
 
   appState = inject(AppState);
-  rootVmSignal = this.appState.getOrLoadModel(ROOT_MODEL_URL) as HypermediaSignal<ResourceBase>;
 
-  constructor(hateoasClient: HateoasClient) {
-
-    this.rootVm$ = hateoasClient.fetch("http://localhost:5100/api")
-
-    this.rootVm$.then(async (rootVm: ResourceBase) => {
-      this.currentUserInfo = await rootVm.fetch_userinfo?.();
-    });
-
-  }
+  rootVm = this.appState.getOrLoadModel(ROOT_MODEL_URL) as HypermediaSignal<ResourceBase>;
+  currentUserInfo: any = this.rootVm.fetchLink('userInfo');
 
   logIn() {
     window.location.href  = './login?redirectUri=' + encodeURIComponent(window.origin);

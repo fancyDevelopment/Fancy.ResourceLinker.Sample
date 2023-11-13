@@ -1,5 +1,5 @@
 <div class="d-flex flex-column h-100">
-  <nav class="navbar navbar-expand-sm bg-body-tertiary" *ngIf="rootVm$ | async as rootVm">
+  <nav class="navbar navbar-expand-sm bg-body-tertiary" *ngIf="rootVm() as rootVm">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">{{title}}</a>
       <div class="navbar-collapse" id="navbarNavAltMarkup">
@@ -11,12 +11,12 @@
       </div>
     </div>
     <div class="navbar-nav px-3">
-      <div class="nav-item" *ngIf="!currentUserInfo">
+      <div class="nav-item" *ngIf="!currentUserInfo()">
         <button class="btn btn-secondary" (click)="logIn()">Login</button>
       </div>
-      <div class="nav-item" *ngIf="currentUserInfo">
+      <div class="nav-item" *ngIf="currentUserInfo()">
         <button class="btn btn-info text-nowrap" (click)="logOut()">
-          Logout <span class="badge text-bg-light">{{currentUserInfo.name}}</span>
+          Logout <span class="badge text-bg-light">{{currentUserInfo.name()}}</span>
         </button>
       </div>
     </div>
