@@ -7,11 +7,14 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "paths": {
-      "fancy-ngrx-deep-patchable-signal": [
-        "./libs/fancy-ngrx-deep-patchable-signal/src/index"
+      "@ngrx/signals": [
+        "./libs/ngrx-signals/index"
       ],
-      "fancy-ngrx-hypermedia-models": [
-        "./libs/fancy-ngrx-hypermedia-models/src/index"
+      "fancy-hateoas-client": [
+        "./libs/fancy-hateoas-client/index"
+      ],
+      "@angular-architects/ngrx-hateoas": [
+        "./libs/angular-architects-ngrx-hateoas/index"
       ]
     },
     "noImplicitOverride": true,
@@ -30,7 +33,12 @@
     "lib": [
       "ES2022",
       "dom"
-    ]
+    ],
+
+    "stripInternal": true,
+    "rootDir": ".",
+    "inlineSources": true,
+    "skipLibCheck": true,
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

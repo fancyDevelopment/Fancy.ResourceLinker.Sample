@@ -1,5 +1,5 @@
+import { DeepPatchableSignal } from "@angular-architects/ngrx-hateoas";
 import { Directive, Input } from "@angular/core";
-import { DeepPatchableSignal } from "fancy-ngrx-deep-patchable-signal";
 
 @Directive()
 export abstract class FlightEditCardBase<T> {

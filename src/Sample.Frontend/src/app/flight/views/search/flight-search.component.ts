@@ -20,7 +20,7 @@ export class SearchComponent {
 
   constructor() {
     this.activatedRoute.params.subscribe(params => {
-      this.viewModel = this.appState.getOrLoadModel(params['url']);
+      this.viewModel = this.appState.LoadSearchVm(params['url']);
     });
   }
 

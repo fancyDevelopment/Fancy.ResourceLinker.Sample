@@ -1,9 +1,7 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { HateoasClient, ResourceBase } from 'fancy-ngx-hateoas-client';
 import { AppState, ROOT_MODEL_URL } from './app.state';
-import { HypermediaSignal } from 'fancy-ngrx-hypermedia-models';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +14,7 @@ export class AppComponent {
 
   appState = inject(AppState);
 
-  rootVm = this.appState.getOrLoadModel(ROOT_MODEL_URL) as HypermediaSignal<ResourceBase>;
+  rootVm = this.appState.LoadRootVm(ROOT_MODEL_URL);
   currentUserInfo: any = this.rootVm.fetchLink('userInfo');
 
   logIn() {

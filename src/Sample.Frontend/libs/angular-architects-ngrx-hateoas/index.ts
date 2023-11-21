@@ -3,3 +3,5 @@
  */
 
 export * from './deep-patchable-signal';
+export * from './with-hypermedia-model';
+export * from './provide';

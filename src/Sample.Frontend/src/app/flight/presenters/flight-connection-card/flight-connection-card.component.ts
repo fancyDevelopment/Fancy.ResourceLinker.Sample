@@ -3,7 +3,6 @@ import { FlightEditCardBase } from '../flightEditCardBase.ts';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FlightConnection } from '../../models/models.js';
-import { DeepPatchableSignal } from 'fancy-ngrx-deep-patchable-signal';
 
 @Component({
   standalone: true,

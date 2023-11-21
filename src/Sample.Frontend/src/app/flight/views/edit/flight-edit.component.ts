@@ -1,5 +1,5 @@
 import { AppState } from './../../../app.state';
-import { computed } from '@angular/core';
+import { computed, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FlightConnectionCardComponent } from '../../presenters/flight-connection-card/flight-connection-card.component';
@@ -24,9 +24,15 @@ export class EditComponent {
 
   activatedRoute = inject(ActivatedRoute);
   appState = inject(AppState);
-  viewModel: any = this.appState.getOrLoadModel(this.activatedRoute.snapshot.params['url']);
 
-  connection = this.viewModel.connection;
+  viewModel = this.appState.LoadFlightEditVm(this.activatedRoute.snapshot.params['url'], true);
 
-  flightRoute = computed(() => this.connection.from() + ' - ' + this.connection.to());
+  flightRoute = computed(() => this.viewModel.connection.from() + ' - ' + this.viewModel.connection.to());
+  flightRouteViaStore = this.appState.flightRouteViaStore;
+
+  constructor() {
+    effect(() => {
+      console.log('Flight Route: ' + this.flightRoute());
+    });
+  }
 }

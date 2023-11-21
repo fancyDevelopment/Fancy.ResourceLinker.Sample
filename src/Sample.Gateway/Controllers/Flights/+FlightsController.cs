@@ -28,6 +28,9 @@ public class FlightsController : HypermediaController
 
         if (Request.Query.ContainsKey(nameof(from)) && Request.Query.ContainsKey(nameof(to)))
         {
+            result.From = from ?? "";
+            result.To = to ?? "";
+
             // Search for flights
             result.Flights = await _router.GetFlightManagementFlights<DynamicResource>(from, to);
 
