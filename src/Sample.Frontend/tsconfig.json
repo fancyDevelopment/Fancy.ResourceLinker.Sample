@@ -7,9 +7,6 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "paths": {
-      "@ngrx/signals": [
-        "./libs/ngrx-signals/index"
-      ],
       "fancy-hateoas-client": [
         "./libs/fancy-hateoas-client/index"
       ],

@@ -2,6 +2,7 @@ import { Signal, effect, inject, signal } from "@angular/core";
 import { HateoasClient, HypermediaFacade, Resource } from "fancy-hateoas-client";
 import { DeepPatchableSignal, Patchable, toDeepPatchableSignal } from "./deep-patchable-signal";
 import { SignalStoreFeature, patchState, signalStoreFeature, withMethods, withState } from "@ngrx/signals";
+import { SignalStateMeta } from "@ngrx/signals/src/signal-state";
 
 interface HypermediaSignalFacade<TResource> {
     fetchLink<TLinkedResource extends Resource>(rel: string): HypermediaSignalFacade<TLinkedResource>;
@@ -68,20 +69,20 @@ export function withHypermediaModel<TResource extends Resource, PropName extends
             methods: ResourceAccessMethod<TResource, PropName>;
         }
     >;
-export function withHypermediaModel<TResource extends Resource>(collectionName?: string) {
+export function withHypermediaModel<TResource extends Resource, PropName extends string>(collectionName: PropName) {
 
     const resourcesKey = collectionName === undefined ? 'resources' : `${collectionName}Resources`;
     const methodName = collectionName === undefined ? 'resources' : `Load${collectionName}`;
 
     return signalStoreFeature(
         withState({
-            [resourcesKey]: undefined as any as HypermediaFacade<TResource>
+           [resourcesKey]: undefined as any as HypermediaFacade<TResource>
         }),
-        withMethods(state => {
+        withMethods((store: any) => {
 
             const hateoasClient = inject(HateoasClient);
 
-            const modelSignal = toDeepPatchableSignal<HypermediaFacade<TResource>>(newVal => patchState(state, { [resourcesKey]: { ...state[resourcesKey](), ...newVal } }), state[resourcesKey]);
+            const modelSignal = toDeepPatchableSignal<HypermediaFacade<TResource>>(newVal => patchState(store, { [resourcesKey]: { ...store[resourcesKey](), ...newVal } }), store[resourcesKey]);
             const hypermediaSignal = toHypermediaSignal(modelSignal);
 
             return {
