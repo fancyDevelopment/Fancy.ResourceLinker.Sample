@@ -16,7 +16,10 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.11" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageReference Include="Fancy.ResourceLinker.Hateoas" Version="0.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Fancy.ResourceLinker\src\Fancy.ResourceLinker.Hateoas\Fancy.ResourceLinker.Hateoas.csproj" />
   </ItemGroup>
 
 </Project>

@@ -13,8 +13,12 @@
     <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.6.0" />
     <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.5.1-beta.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageReference Include="Fancy.ResourceLinker.Gateway" Version="0.0.5" />
-    <PackageReference Include="Fancy.ResourceLinker.Hateoas" Version="0.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Fancy.ResourceLinker\src\Fancy.ResourceLinker.Gateway\Fancy.ResourceLinker.Gateway.csproj" />
+    <ProjectReference Include="..\..\..\Fancy.ResourceLinker\src\Fancy.ResourceLinker.Hateoas\Fancy.ResourceLinker.Hateoas.csproj" />
+    <ProjectReference Include="..\..\..\Fancy.ResourceLinker\src\Fancy.ResourceLinker.Models\Fancy.ResourceLinker.Models.csproj" />
   </ItemGroup>
 
 </Project>
