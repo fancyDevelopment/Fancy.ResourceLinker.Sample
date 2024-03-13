@@ -16,14 +16,15 @@ builder.Services.AddSwaggerGen();
 string? connectionString = builder.Configuration.GetConnectionString("database");
 builder.Services.AddDbContext<FlightManagementDbContext>(options => options.UseSqlServer(connectionString));
 
-//IdentityModelEventSource.ShowPII = true;
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-//{
-//    options.Authority = builder.Configuration.GetValue<string>("Authentication:Authority");
-//    options.Audience = builder.Configuration.GetValue<string>("Authentication:Audience");
-//    options.RequireHttpsMetadata = false;
-//    options.TokenValidationParameters.NameClaimType = "preferred_username";
-//});
+IdentityModelEventSource.ShowPII = true;
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.Authority = builder.Configuration.GetValue<string>("Authentication:Authority");
+    options.Audience = builder.Configuration.GetValue<string>("Authentication:Audience");
+    options.TokenValidationParameters.ValidIssuer = "https://sts.windows.net/01646a6a-a4b1-456a-91fc-c3c740776968/";
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters.NameClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
+});
 
 var app = builder.Build();
 
