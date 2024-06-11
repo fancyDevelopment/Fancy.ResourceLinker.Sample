@@ -1,8 +1,7 @@
 ﻿using Fancy.ResourceLinker.Gateway.Routing;
 
-namespace Sample.Gateway.Controllers
+namespace Sample.Gateway.Controllers;
+
+public static class Routes
 {
-    public static class Routes
-    {
-    }
 }
