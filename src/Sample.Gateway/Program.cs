@@ -15,9 +15,13 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddGateway()
                 .LoadConfiguration(builder.Configuration.GetSection("Gateway"))
-                .AddRouting();
+                .AddRouting()
+                .AddAuthentication();
 
 var app = builder.Build();
+
+app.UseGatewayAuthentication();
+app.UseGatewayAuthenticationEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
