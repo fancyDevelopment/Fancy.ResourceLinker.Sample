@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlightManagement.Controllers;
 
-[Authorize]
 [ApiController]
 public class FlightsController : HypermediaController
 {
