@@ -18,6 +18,14 @@ builder.Services.AddSwaggerGen();
 string? connectionString = builder.Configuration.GetConnectionString("database");
 builder.Services.AddDbContext<FlightManagementDbContext>(options => options.UseSqlServer(connectionString));
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.Authority = builder.Configuration.GetValue<string>("Authentication:Authority");
+    options.Audience = builder.Configuration.GetValue<string>("Authentication:Audience");
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters.NameClaimType = "preferred_username";
+});
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())

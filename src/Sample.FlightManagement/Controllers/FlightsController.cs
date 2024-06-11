@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlightManagement.Controllers;
 
+[Authorize]
 [ApiController]
 public class FlightsController : HypermediaController
 {
@@ -27,7 +28,7 @@ public class FlightsController : HypermediaController
     [Route("api/flight-management/flights/summary")]
     public async Task<IActionResult> GetFlightsSummary()
     {
-        _logger.LogInformation("Reading flights summary.");
+        _logger.LogInformation("Reading flights summary for user: " + User.Identity?.Name ?? "anonymous");
         IQueryable<Flight> query = _flightManagementDbContext.Flights;
         FlightsSummaryDto result = new FlightsSummaryDto();
         result.FlightCount = await _flightManagementDbContext.Flights.CountAsync();
