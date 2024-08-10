@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col">
+        <p class="lead">Flight Edit</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <app-action-card [disabled]="!flightState.updateFlightConnection.isAvailable()" 
+                         [showSuccess]="flightState.updateFlightConnection.hasExecutedSuccessfully()"
+                         [showError]="flightState.updateFlightConnection.hasExecutedWithError()"
+                         (execute)="flightState.executeUpdateFlightConnection()">
+            <app-flight-connection-form [model]="flightConnection()" (modelChange)="flightConnection.set($event)" />
+        </app-action-card>
+        <app-action-card [disabled]="!flightState.updateFlightTimes.isAvailable()" 
+                         [showSuccess]="flightState.updateFlightTimes.hasExecutedSuccessfully()"
+                         [showError]="flightState.updateFlightTimes.hasExecutedWithError()"
+                         (execute)="flightState.executeUpdateFlightTimes()">
+            <app-flight-times-form [model]="flightTimes()" (modelChange)="flightTimes.set($event)" />
+        </app-action-card>
+        <app-action-card [disabled]="!flightState.updateFlightOperator.isAvailable()" 
+                         [showSuccess]="flightState.updateFlightOperator.hasExecutedSuccessfully()"
+                         [showError]="flightState.updateFlightOperator.hasExecutedWithError()"
+                         (execute)="flightState.executeUpdateFlightOperator()">
+            <app-flight-operator-form [aircrafts]="viewModel.aircrafts()" [model]="flightOperator()" (modelChange)="flightOperator.set($event)" />
+        </app-action-card>
+        @if(flightPrice(); as flightPriceValue) {
+            <app-action-card [disabled]="!flightState.updateFlightPrice.isAvailable()" 
+                             [showSuccess]="flightState.updateFlightPrice.hasExecutedSuccessfully()"
+                             [showError]="flightState.updateFlightPrice.hasExecutedWithError()"
+                             (execute)="flightState.executeUpdateFlightPrice()">
+                <app-flight-price-form [model]="flightPriceValue" (modelChange)="flightPrice.set($event)" />
+            </app-action-card>
+        }
+    </div>
+</div>
+

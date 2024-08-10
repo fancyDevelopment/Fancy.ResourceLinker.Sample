@@ -1,0 +1,15 @@
+<div class="row">
+    <div class="col">
+        <p class="lead">Flight Create</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <app-action-card #saveActionCard [disabled]="!saveEnabled()" (execute)="onSaveFlight()">
+            <app-flight-connection-form [model]="flightConnection()" (modelChange)="flightConnection.set($event)" />
+            <app-flight-times-form [model]="flightTimes()" (modelChange)="flightTimes.set($event)" />
+            <app-flight-operator-form [aircrafts]="aircrafts()" [model]="flightOperator()" (modelChange)="flightOperator.set($event)" />
+        </app-action-card>
+    </div>
+</div>
