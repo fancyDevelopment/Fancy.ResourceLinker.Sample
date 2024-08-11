@@ -1,0 +1,24 @@
+name: Backend
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout repository
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Install the .NET Core workload
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      # Build library
+      - name: Build
+        run: |
+          cd ./Backend/
+          dotnet build
+
