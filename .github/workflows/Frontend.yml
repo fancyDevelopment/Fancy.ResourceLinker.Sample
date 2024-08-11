@@ -1,0 +1,30 @@
+name: Frontend
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: 'Build'
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout repository
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Install Node.js
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+
+      # Restore dependencies
+      - name: Restore dependencies
+        run: |
+          cd ./Frontend/
+          npm install
+
+      # Build library
+      - name: Build library
+        run: |
+          cd ./Frontend/
+          npm run build

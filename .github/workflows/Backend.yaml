@@ -4,11 +4,12 @@ on: [push, pull_request]
 
 jobs:
   build:
+    name: 'Build'
     runs-on: ubuntu-latest
     steps:
       # Checkout repository
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Install the .NET Core workload
       - name: Install .NET Core
