@@ -1,0 +1,31 @@
+name: resourcelinker-sample-dependencies
+
+networks:
+  infrastructure:
+
+services:
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    networks:
+      - infrastructure
+    ports: 
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "SA@sqlserver"
+      MSSQL_PID: "Express"
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0.2
+    ports: 
+      - 8080:8080
+    command: start-dev
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+
+
+      
+
+      
