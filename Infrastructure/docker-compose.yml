@@ -1,14 +1,9 @@
 name: resourcelinker-sample-dependencies
 
-networks:
-  infrastructure:
-
 services:
 
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    networks:
-      - infrastructure
     ports: 
       - "1433:1433"
     environment:
@@ -17,10 +12,12 @@ services:
       MSSQL_PID: "Express"
 
   keycloak:
-    image: quay.io/keycloak/keycloak:25.0.2
+    image: quay.io/keycloak/keycloak:25.0.4
     ports: 
       - 8080:8080
-    command: start-dev
+    volumes:
+      - "./resourcelinker.sample-realm.json:/opt/keycloak/data/import/resourcelinker.sample-realm.json"
+    command: start-dev --import-realm
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin

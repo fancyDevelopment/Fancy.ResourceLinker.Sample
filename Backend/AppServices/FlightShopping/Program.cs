@@ -25,7 +25,7 @@ IdentityModelEventSource.ShowPII = true;
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.Authority = builder.Configuration.GetValue<string>("Authentication:Authority");
-    options.Audience = builder.Configuration.GetValue<string>("Authentication:Audience");
+    options.Audience = builder.Configuration.GetValue<string>("Authentication:ClientId");
     options.RequireHttpsMetadata = false;
     options.TokenValidationParameters.NameClaimType = "preferred_username";
 });
